@@ -15,27 +15,37 @@ class HillChiper():
         self.y = y
 
     def getKey(self):
-        key = self.y
         k = 0
         for i in range(3):
             for j in range(3):
-                keyMatrix[i][j] = ord(key[k]) % 65
+                keyMatrix[i][j] = ord(self.y[k]) % 65
                 k += 1
-
-    def encryptData(self):
+        
+    def encryptData(self, messageMatrix):
         for i in range(3):
             for j in range(1):
                 cipherMatrix[i][j] = 0
                 for x in range(3):
-                    cipherMatrix[i][j] += (keyMatrix[i][j] * messageMatrix[x][j])
+                    cipherMatrix[i][j] += (keyMatrix[i][x] * messageMatrix[x][j])
                 cipherMatrix[i][j] = cipherMatrix[i][j] % 26
 
     def decryptData(self):
         return None
 
     def processEncrypt(self):
-        return None
-    
+        self.getKey()
+        for i in range(3):
+            messageMatrix[i][0] = ord(self.x[i]) % 65
+
+        self.encryptData(messageMatrix)
+
+        CipherText = []
+        for i in range(3):
+            CipherText.append(chr(cipherMatrix[i][0] + 65))
+        print("Ciphertext: ", "".join(CipherText)) 
+
+
+
     def processDecrypt(self):
         return None
 
@@ -45,13 +55,13 @@ class OutputHillChiper(HillChiper):
 
 if __name__ == "__main__":
 
-    isMessage = "REZ"
+    isMessage = "ACT"
     isKey = "GYBNQKURP"
 
-    keyMatrix = np.zeros((3,3))
-    messageMatrix = np.zeros((3,1))
-    cipherMatrix = np.zeros((3,1))
+    keyMatrix = [[0] * 3 for i in range(3)] 
+    messageMatrix = [[0] for i in range(3)] 
+    cipherMatrix = [[0] for i in range(3)]
 
     ftr = HillChiper(isMessage, isKey)
-    ftr.encryptData()
+    ftr.processEncrypt()
 
