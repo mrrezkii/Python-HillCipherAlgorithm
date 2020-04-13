@@ -1,3 +1,6 @@
+import numpy as np
+
+
 '''
     +----------------------------------------+
 	|        MUHAMMAD REZKI ANANDA           |
@@ -28,12 +31,13 @@ class OutputHillChiper(HillChiper):
 
 if __name__ == "__main__":
 
-    isMessage = ""
-    isKey = ""
+    isMessage = "REZ"
+    isKey = "GYBNQKURP"
 
-    keyMatrix = []
-    messageMatrix = []
-    cipherMatrix = []
+    keyMatrix = np.zeros((3,3))
+    messageMatrix = np.zeros((3,1))
+    cipherMatrix = np.zeros((3,1))
+
 
     ftr = OutputHillChiper()
     ftr.showMenu()
