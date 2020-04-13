@@ -23,7 +23,12 @@ class HillChiper():
                 k += 1
 
     def encryptData(self):
-        return None
+        for i in range(3):
+            for j in range(1):
+                cipherMatrix[i][j] = 0
+                for x in range(3):
+                    cipherMatrix[i][j] += (keyMatrix[i][j] * messageMatrix[x][j])
+                cipherMatrix[i][j] = cipherMatrix[i][j] % 26
 
     def decryptData(self):
         return None
@@ -48,5 +53,5 @@ if __name__ == "__main__":
     cipherMatrix = np.zeros((3,1))
 
     ftr = HillChiper(isMessage, isKey)
-    ftr.getKey()
+    ftr.encryptData()
 
