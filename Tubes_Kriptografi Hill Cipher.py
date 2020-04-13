@@ -10,8 +10,17 @@ import numpy as np
 '''
 
 class HillChiper():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
     def getKey(self):
-        return None
+        key = self.y
+        k = 0
+        for i in range(3):
+            for j in range(3):
+                keyMatrix[i][j] = ord(key[k]) % 65
+                k += 1
 
     def encryptData(self):
         return None
@@ -38,7 +47,6 @@ if __name__ == "__main__":
     messageMatrix = np.zeros((3,1))
     cipherMatrix = np.zeros((3,1))
 
-
-    ftr = OutputHillChiper()
-    ftr.showMenu()
+    ftr = HillChiper(isMessage, isKey)
+    ftr.getKey()
 
