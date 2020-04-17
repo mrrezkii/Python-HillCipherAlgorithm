@@ -87,17 +87,44 @@ class OutputHillChiper(HillChiper):
 
 if __name__ == "__main__":
 
-    msg__ = "ACT"
-    key__ = "GYBNQKURP"
-
     keyMatrix = [[0] * 3 for i in range(3)] 
     messageMatrix = [[0] for i in range(3)] 
     cipherMatrix = [[0] for i in range(3)]
 
-    ftr = HillChiper(msg__, key__)
-    ftr.processEncrypt()
-    print()
-    ftr.processDecrypt()
+    print("\n********** APLIKASI ENKRIPSI HILL CIPHER **********\n")
+    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
+    isMessage = input(">> Masukkan 3 huruf yang ingin di enkripsi \t:")
+    
+    if any(str.isdigit(c) for c in isMessage):
+        print('''
+            Input supplied should be of type 'str' 
+            ''')
+    else:
+        while len(isMessage) != 3:
+            print('''
+            Error. Only 3 digit allowed
+            ''')
+            exit()
+
+        msg__ = isMessage.upper()
+        key__ = "GYBNQKURP"
+
+        ftr = HillChiper(msg__, key__)
+        ftr.processEncrypt()
+        print()
+        ftr.processDecrypt()
+
+    
+
+
+    
+   
+
+       
+
+    
+
+    
     
 
 
