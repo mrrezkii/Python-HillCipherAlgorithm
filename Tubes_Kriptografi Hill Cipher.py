@@ -1,4 +1,3 @@
-import numpy as np
 import sympy as sm
 
 
@@ -15,12 +14,14 @@ class HillChiper():
         self.x = x
         self.y = y
 
+
     def getKey(self):
         k = 0
         for i in range(3):
             for j in range(3):
                 keyMatrix[i][j] = ord(self.y[k]) % 65
                 k += 1
+
 
     def getInversKey(self):
         self.getKey()
@@ -33,7 +34,7 @@ class HillChiper():
 
         return inverseKeyMatrix
         
-        
+    
     def encryptData(self, messageMatrix):
         for i in range(3):
             for j in range(1):
@@ -68,15 +69,16 @@ class HillChiper():
             CipherText.append(chr(cipherMatrix[i][0] + 65))
         print("Ciphertext: ", "".join(CipherText)) 
 
+
     def processDecrypt(self):
         self.decryptData(cipherMatrix)
         for i in range(3):
             cipherMatrix[i][0] = ord(self.x[i]) % 65
 
-        CipherText = []
+        MessageText = []
         for i in range(3):
-            CipherText.append(chr(cipherMatrix[i][0] + 65))
-        print("Dekripsi: ", "".join(CipherText)) 
+            MessageText.append(chr(cipherMatrix[i][0] + 65))
+        print("Dekripsi: ", "".join(MessageText)) 
 
 
 class OutputHillChiper(HillChiper):
@@ -85,17 +87,17 @@ class OutputHillChiper(HillChiper):
 
 if __name__ == "__main__":
 
-    isMessage = "ACT"
-    isKey = "GYBNQKURP"
+    msg__ = "ACT"
+    key__ = "GYBNQKURP"
 
     keyMatrix = [[0] * 3 for i in range(3)] 
     messageMatrix = [[0] for i in range(3)] 
     cipherMatrix = [[0] for i in range(3)]
 
-    ftr = HillChiper(isMessage, isKey)
-    ftr.processDecrypt()
-    ftr.decryptData(cipherMatrix)
-    print()
+    ftr = HillChiper(msg__, key__)
     ftr.processEncrypt()
-    ftr.encryptData(messageMatrix)
+    print()
+    ftr.processDecrypt()
+    
+
 
