@@ -8,7 +8,7 @@
 
 Buka CMD atau Terminal kemudian lakukan instalasi library dibawah dengan command sebagai berikut :
 	
-`pip sympy`
+`pip install sympy`
 
 <br />
 
