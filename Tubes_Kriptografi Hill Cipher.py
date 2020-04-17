@@ -30,11 +30,8 @@ class HillChiper():
 
         inverseKeyMatrix = (determinantKeyMatrix * minorCoFactorKeyMatrix % 26)
         inverseKeyMatrix = inverseKeyMatrix.tolist()
-        print(inverseKeyMatrix)
-        
-        
-        
 
+        return inverseKeyMatrix
         
         
     def encryptData(self, messageMatrix):
@@ -45,8 +42,19 @@ class HillChiper():
                     cipherMatrix[i][j] += (keyMatrix[i][x] * messageMatrix[x][j])
                 cipherMatrix[i][j] = cipherMatrix[i][j] % 26
 
-    def decryptData(self):
-        return None
+        return cipherMatrix
+
+
+    def decryptData(self, cipherMatrix):
+        inverseKeyMatrix = self.getInversKey()
+        cipherMatrix = self.encryptData(messageMatrix)
+        for i in range(3):
+            for j in range(1):
+                messageMatrix[i][j] = 0
+                for x in range(3):
+                    messageMatrix[i][j] += (inverseKeyMatrix[i][x] * cipherMatrix[x][j])
+                messageMatrix[i][j] = messageMatrix[i][j] % 26        
+        
 
     def processEncrypt(self):
         self.getKey()
@@ -60,10 +68,16 @@ class HillChiper():
             CipherText.append(chr(cipherMatrix[i][0] + 65))
         print("Ciphertext: ", "".join(CipherText)) 
 
-
-
     def processDecrypt(self):
-        return None
+        self.decryptData(cipherMatrix)
+        for i in range(3):
+            cipherMatrix[i][0] = ord(self.x[i]) % 65
+
+        CipherText = []
+        for i in range(3):
+            CipherText.append(chr(cipherMatrix[i][0] + 65))
+        print("Dekripsi: ", "".join(CipherText)) 
+
 
 class OutputHillChiper(HillChiper):
     def showMenu(self):
@@ -79,5 +93,9 @@ if __name__ == "__main__":
     cipherMatrix = [[0] for i in range(3)]
 
     ftr = HillChiper(isMessage, isKey)
-    ftr.getInversKey()
+    ftr.processDecrypt()
+    ftr.decryptData(cipherMatrix)
+    print()
+    ftr.processEncrypt()
+    ftr.encryptData(messageMatrix)
 
