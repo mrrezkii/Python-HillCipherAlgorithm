@@ -1,4 +1,5 @@
 import numpy as np
+import sympy as sm
 
 
 '''
@@ -20,6 +21,21 @@ class HillChiper():
             for j in range(3):
                 keyMatrix[i][j] = ord(self.y[k]) % 65
                 k += 1
+
+    def getInversKey(self):
+        self.getKey()
+        convertSM = sm.Matrix(keyMatrix)
+        minorCoFactorKeyMatrix = convertSM.adjugate()
+        determinantKeyMatrix = convertSM.det()
+
+        inverseKeyMatrix = (determinantKeyMatrix * minorCoFactorKeyMatrix % 26)
+        inverseKeyMatrix = inverseKeyMatrix.tolist()
+        print(inverseKeyMatrix)
+        
+        
+        
+
+        
         
     def encryptData(self, messageMatrix):
         for i in range(3):
@@ -63,5 +79,5 @@ if __name__ == "__main__":
     cipherMatrix = [[0] for i in range(3)]
 
     ftr = HillChiper(isMessage, isKey)
-    ftr.processEncrypt()
+    ftr.getInversKey()
 
