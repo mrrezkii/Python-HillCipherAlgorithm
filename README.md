@@ -24,3 +24,7 @@ Buka CMD atau Terminal kemudian lakukan instalasi library dibawah dengan command
 4. Menampilkan History Hasil Dekripsi
 
 <br />
+
+**Screenshot Aplikasi:**
+
+![alt_text](https://github.com/rezkiananda25/TubesAlpro_HillCipher/blob/master/Image%20Src/Screenshot%20Aplikasi.PNG)
