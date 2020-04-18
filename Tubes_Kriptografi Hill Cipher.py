@@ -45,8 +45,9 @@ class HillChiper():
         CipherText = []
         for i in range(3):
             CipherText.append(chr(cipherMatrix[i][0] + 65))
-        print("Ciphertext: ", "".join(CipherText))
         strCipherText = ''.join(CipherText)
+        print("\t>> [Output] Hasil Enkripsi dari", self.x, "adalah \t:", strCipherText)
+        print()
 
         dateTime = datetime.datetime.now()
         cursor = db.cursor()
@@ -92,8 +93,9 @@ class Decrypt(HillChiper):
         MessageText = []
         for i in range(3):
             MessageText.append(chr(messageMatrix[i][0] + 65))
-        print("Dekripsi: ", "".join(MessageText))
         strMessageText = ''.join(MessageText)
+        print("\t>> [Output] Hasil Dekripsi dari", self.x, "adalah \t:", strMessageText)
+        print()
 
         dateTime = datetime.datetime.now()
         cursor = db.cursor()
@@ -126,21 +128,28 @@ if __name__ == "__main__":
     except mysql.connector.Error as er:
         print("Gagal tersambung dengan database", er)
     else:
+        print("\n_____________________________________________________________________\n")
         print("| Menu 1. Enkripsi Data                  | Menu 2. Dekripsi Data     ")
         print("| Menu 3. History Enkripsi               | Menu 4. History Dekripsi  ")
-        print("                            [0] Keluar                               ") 
+        print("                            [0] Keluar                               ")
+        print("_____________________________________________________________________")
+        print()
     
         while True:
             try:
-                isInputMenu = int(input(">> Masukkan menu yang ingin Anda pilih \t:"))
+                isInputMenu = int(input(">> Masukkan menu yang ingin Anda pilih \t: "))
             except ValueError:
-                print("Input supplied should be of type 'int'")
+                print('''
+                        Input supplied should be of type 'int'
+                ''')
             else:
                 if isInputMenu < 0:
-                    print("Error Input User")
+                    print('''
+                           Error Input User
+                            ''')
                 elif isInputMenu == 1:
-                    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
-                    isMessage = input("\t>> Masukkan 3 huruf yang ingin di enkripsi \t:")
+                    print("\t** SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE **")
+                    isMessage = input("\t>> Masukkan 3 huruf yang ingin di enkripsi \t: ")
                     if any(str.isdigit(c) for c in isMessage):
                         print('''
                             Input supplied should be of type 'str' 
@@ -157,8 +166,8 @@ if __name__ == "__main__":
                         ftr = HillChiper(msg__, key__, db)
                         ftr.processEncrypt()
                 elif isInputMenu == 2:
-                    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
-                    isMessage = input("\t>> Masukkan 3 huruf yang ingin di dekripsi \t:")
+                    print("\t** SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE **")
+                    isMessage = input(" \t>> Masukkan 3 huruf yang ingin di dekripsi \t: ")
                     if any(str.isdigit(c) for c in isMessage):
                         print('''
                             Input supplied should be of type 'str' 
@@ -186,6 +195,7 @@ if __name__ == "__main__":
                     for row in results:
                         table.append_row([row[0], row[1], row[2], row[3]])
                     print(table)
+                    print()
                 elif isInputMenu == 4:
                     cursor = db.cursor()
                     sql = "SELECT * FROM `dekripsi`"
@@ -198,14 +208,17 @@ if __name__ == "__main__":
                     for row in results:
                         table.append_row([row[0], row[1], row[2], row[3]])
                     print(table)
+                    print()
                 elif isInputMenu == 0:
                     exit()
                 else:
-                    print("Masukkan angka sesuai dengan pilihan menu di atas")
+                    print('''
+                           Enter the numbers according to the menu options above
+                        ''')
     finally:
         print()
         print('''
-                ***** Terimakasih Sudah menggunakan aplikasi ini *****
+                ***** Terimakasih sudah menggunakan aplikasi ini *****
         ''')
 
 
