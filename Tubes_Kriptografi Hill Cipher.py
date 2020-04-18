@@ -1,6 +1,7 @@
 import sympy as sm
 import mysql.connector
 import datetime
+from beautifultable import BeautifulTable
 
 
 '''
@@ -174,9 +175,29 @@ if __name__ == "__main__":
                         ftr = Decrypt(msg__, key__, db)
                         ftr.processDecrypt()
                 elif isInputMenu == 3:
-                    pass
+                    cursor = db.cursor()
+                    sql = "SELECT * FROM `enkripsi`"
+                    cursor.execute(sql)
+
+                    results = cursor.fetchall()
+
+                    table = BeautifulTable()
+                    table.column_headers = ['Kode Enkripsi', 'Kata Awal', 'Hasil Enkripsi', 'Tanggal & Waktu']
+                    for row in results:
+                        table.append_row([row[0], row[1], row[2], row[3]])
+                    print(table)
                 elif isInputMenu == 4:
-                    pass
+                    cursor = db.cursor()
+                    sql = "SELECT * FROM `dekripsi`"
+                    cursor.execute(sql)
+
+                    results = cursor.fetchall()
+
+                    table = BeautifulTable()
+                    table.column_headers = ['Kode Dekripsi', 'Kata Awal', 'Hasil Dekripsi', 'Tanggal & Waktu']
+                    for row in results:
+                        table.append_row([row[0], row[1], row[2], row[3]])
+                    print(table)
                 elif isInputMenu == 0:
                     exit()
                 else:
