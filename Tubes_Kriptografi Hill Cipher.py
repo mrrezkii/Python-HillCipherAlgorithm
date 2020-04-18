@@ -91,7 +91,17 @@ class Decrypt(HillChiper):
         MessageText = []
         for i in range(3):
             MessageText.append(chr(messageMatrix[i][0] + 65))
-        print("Dekripsi: ", "".join(MessageText)) 
+        print("Dekripsi: ", "".join(MessageText))
+        strMessageText = ''.join(MessageText)
+
+        dateTime = datetime.datetime.now()
+        cursor = db.cursor()
+        sql = "INSERT INTO `dekripsi`( `kata_awal_de`, `hasil_dekripsi`, `tanggal`) VALUES (%s, %s, %s)"
+        val = (self.x, strMessageText, dateTime)
+
+        cursor.execute(sql, val)
+
+        db.commit()
 
 
 if __name__ == "__main__":
