@@ -1,5 +1,6 @@
 import sympy as sm
 import mysql.connector
+import datetime
 
 
 '''
@@ -11,9 +12,10 @@ import mysql.connector
 '''
 
 class HillChiper():
-    def __init__(self, x, y):
+    def __init__(self, x, y, db):
         self.x = x
         self.y = y
+        self.db = db
 
     def getKey(self):
         k = 0
@@ -42,12 +44,22 @@ class HillChiper():
         CipherText = []
         for i in range(3):
             CipherText.append(chr(cipherMatrix[i][0] + 65))
-        print("Ciphertext: ", "".join(CipherText)) 
+        print("Ciphertext: ", "".join(CipherText))
+        strCipherText = ''.join(CipherText)
+
+        dateTime = datetime.datetime.now()
+        cursor = db.cursor()
+        sql = "INSERT INTO `enkripsi`( `kata_awal_en`, `hasil_enkripsi`, `tanggal`) VALUES (%s, %s, %s)"
+        val = (self.x, strCipherText, dateTime)
+
+        cursor.execute(sql, val)
+
+        db.commit()
 
 
 class Decrypt(HillChiper):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, db):
+        super().__init__(x, y, db)
 
     def getInversKey(self):
         global keyMatrix
@@ -131,9 +143,8 @@ if __name__ == "__main__":
                         msg__ = isMessage.upper()
                         key__ = "GYBNQKURP"
 
-                        ftr = HillChiper(msg__, key__)
+                        ftr = HillChiper(msg__, key__, db)
                         ftr.processEncrypt()
-                        
                 elif isInputMenu == 2:
                     print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
                     isMessage = input("\t>> Masukkan 3 huruf yang ingin di dekripsi \t:")
@@ -150,8 +161,12 @@ if __name__ == "__main__":
                         msg__ = isMessage.upper()
                         key__ = "GYBNQKURP"
 
-                        ftr = Decrypt(msg__, key__)
+                        ftr = Decrypt(msg__, key__, db)
                         ftr.processDecrypt()
+                elif isInputMenu == 3:
+                    pass
+                elif isInputMenu == 4:
+                    pass
                 elif isInputMenu == 0:
                     exit()
                 else:
