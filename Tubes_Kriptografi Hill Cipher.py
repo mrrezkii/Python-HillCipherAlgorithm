@@ -1,4 +1,5 @@
 import sympy as sm
+import mysql.connector
 
 
 '''
@@ -14,7 +15,6 @@ class HillChiper():
         self.x = x
         self.y = y
 
-
     def getKey(self):
         k = 0
         for i in range(3):
@@ -22,19 +22,6 @@ class HillChiper():
                 keyMatrix[i][j] = ord(self.y[k]) % 65
                 k += 1
 
-
-    def getInversKey(self):
-        self.getKey()
-        convertSM = sm.Matrix(keyMatrix)
-        minorCoFactorKeyMatrix = convertSM.adjugate()
-        determinantKeyMatrix = convertSM.det()
-
-        inverseKeyMatrix = (determinantKeyMatrix * minorCoFactorKeyMatrix % 26)
-        inverseKeyMatrix = inverseKeyMatrix.tolist()
-
-        return inverseKeyMatrix
-        
-    
     def encryptData(self, messageMatrix):
         for i in range(3):
             for j in range(1):
@@ -44,18 +31,6 @@ class HillChiper():
                 cipherMatrix[i][j] = cipherMatrix[i][j] % 26
 
         return cipherMatrix
-
-
-    def decryptData(self, cipherMatrix):
-        inverseKeyMatrix = self.getInversKey()
-        cipherMatrix = self.encryptData(messageMatrix)
-        for i in range(3):
-            for j in range(1):
-                messageMatrix[i][j] = 0
-                for x in range(3):
-                    messageMatrix[i][j] += (inverseKeyMatrix[i][x] * cipherMatrix[x][j])
-                messageMatrix[i][j] = messageMatrix[i][j] % 26        
-        
 
     def processEncrypt(self):
         self.getKey()
@@ -70,20 +45,42 @@ class HillChiper():
         print("Ciphertext: ", "".join(CipherText)) 
 
 
-    def processDecrypt(self):
-        self.decryptData(cipherMatrix)
+class Decrypt(HillChiper):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+
+    def getInversKey(self):
+        global keyMatrix
+        super().getKey()
+        convertSM = sm.Matrix(keyMatrix)
+        minorCoFactorKeyMatrix = convertSM.adjugate()
+        determinantKeyMatrix = convertSM.det()
+
+        keyMatrix = (determinantKeyMatrix * minorCoFactorKeyMatrix % 26)
+        keyMatrix = keyMatrix.tolist()
+
+    def decryptData(self, cipherMatrix):
+        self.getInversKey()
+        for i in range(3):
+            for j in range(1):
+                messageMatrix[i][j] = 0
+                for x in range(3):
+                    messageMatrix[i][j] += (keyMatrix[i][x] * cipherMatrix[x][j])
+                messageMatrix[i][j] = messageMatrix[i][j] % 26  
+
+        return messageMatrix
+
+    def processDecrypt(self):        
         for i in range(3):
             cipherMatrix[i][0] = ord(self.x[i]) % 65
 
+        self.decryptData(cipherMatrix)
+
         MessageText = []
         for i in range(3):
-            MessageText.append(chr(cipherMatrix[i][0] + 65))
+            MessageText.append(chr(messageMatrix[i][0] + 65))
         print("Dekripsi: ", "".join(MessageText)) 
 
-
-class OutputHillChiper(HillChiper):
-    def showMenu(self):
-        return None
 
 if __name__ == "__main__":
 
@@ -91,28 +88,80 @@ if __name__ == "__main__":
     messageMatrix = [[0] for i in range(3)] 
     cipherMatrix = [[0] for i in range(3)]
 
-    print("\n********** APLIKASI ENKRIPSI HILL CIPHER **********\n")
-    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
-    isMessage = input(">> Masukkan 3 huruf yang ingin di enkripsi \t:")
-    
-    if any(str.isdigit(c) for c in isMessage):
-        print('''
-            Input supplied should be of type 'str' 
-            ''')
+    STRING_JUDUL_APPS = " APLIKASI ENKRIPSI HILL CIPHER "
+    print()
+    print("=" * 20 + STRING_JUDUL_APPS + "=" * 20)
+    print()
+
+    try:
+        db = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            passwd="",
+            database="tubes_kriptografi"
+        )
+    except mysql.connector.Error as er:
+        print("Gagal tersambung dengan database", er)
     else:
-        while len(isMessage) != 3:
-            print('''
-            Error. Only 3 digit allowed
-            ''')
-            exit()
+        print("| Menu 1. Enkripsi Data                  | Menu 2. Dekripsi Data     ")
+        print("| Menu 3. History Enkripsi               | Menu 4. History Dekripsi  ")
+        print("                            [0] Keluar                               ") 
+    
+        while True:
+            try:
+                isInputMenu = int(input(">> Masukkan menu yang ingin Anda pilih \t:"))
+            except ValueError:
+                print("Input supplied should be of type 'int'")
+            else:
+                if isInputMenu < 0:
+                    print("Error Input User")
+                elif isInputMenu == 1:
+                    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
+                    isMessage = input("\t>> Masukkan 3 huruf yang ingin di enkripsi \t:")
+                    if any(str.isdigit(c) for c in isMessage):
+                        print('''
+                            Input supplied should be of type 'str' 
+                            ''')
+                    else:
+                        while len(isMessage) != 3:
+                            print('''
+                            Error. Only 3 digit allowed
+                            ''')
+                            exit()
+                        msg__ = isMessage.upper()
+                        key__ = "GYBNQKURP"
 
-        msg__ = isMessage.upper()
-        key__ = "GYBNQKURP"
+                        ftr = HillChiper(msg__, key__)
+                        ftr.processEncrypt()
+                        
+                elif isInputMenu == 2:
+                    print("SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE")
+                    isMessage = input("\t>> Masukkan 3 huruf yang ingin di dekripsi \t:")
+                    if any(str.isdigit(c) for c in isMessage):
+                        print('''
+                            Input supplied should be of type 'str' 
+                            ''')
+                    else:
+                        while len(isMessage) != 3:
+                            print('''
+                            Error. Only 3 digit allowed
+                            ''')
+                            exit()
+                        msg__ = isMessage.upper()
+                        key__ = "GYBNQKURP"
 
-        ftr = HillChiper(msg__, key__)
-        ftr.processEncrypt()
+                        ftr = Decrypt(msg__, key__)
+                        ftr.processDecrypt()
+                elif isInputMenu == 0:
+                    exit()
+                else:
+                    print("Masukkan angka sesuai dengan pilihan menu di atas")
+    finally:
         print()
-        ftr.processDecrypt()
+        print('''
+                ***** Terimakasih Sudah menggunakan aplikasi ini *****
+        ''')
+
 
     
 
