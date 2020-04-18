@@ -9,7 +9,10 @@
 Buka CMD atau Terminal kemudian lakukan instalasi library dibawah dengan command sebagai berikut :
 	
 `pip install sympy`
+
 `pip install mysql-connector`
+
+`pip install beautifultable`
 
 <br />
 
@@ -17,5 +20,7 @@ Buka CMD atau Terminal kemudian lakukan instalasi library dibawah dengan command
 
 1. Enkripsi Hill Cipher
 2. Dekripsi Hill Cipher
+3. Menampilkan History Hasil Enkripsi
+4. Menampilkan History Hasil Dekripsi
 
 <br />
