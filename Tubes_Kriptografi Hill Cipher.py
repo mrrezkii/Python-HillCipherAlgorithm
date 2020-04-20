@@ -13,6 +13,22 @@ from colored import fg, bg, attr
     +----------------------------------------+
 '''
 
+'''
+    +----------------------------------------+
+	|          Encryption Steps              |
+    +----------------------------------------+
+	| ChiperText = (Message x Key) Mod 26	 |
+    +----------------------------------------+
+
+    +----------------------------------------+
+	|          Encryption Steps              |
+    +----------------------------------------+
+	| Message = (ChiperText x Key -1) Mod 26 |
+    +----------------------------------------+
+
+'''
+
+
 class HillChiper():
     def __init__(self, x, y, db):
         self.x = x
@@ -64,18 +80,18 @@ class Decrypt(HillChiper):
     def __init__(self, x, y, db):
         super().__init__(x, y, db)
 
-    def getInversKey(self):
+    def getModInversKey(self):
         global keyMatrix
         super().getKey()
         convertSM = sm.Matrix(keyMatrix)
-        minorCoFactorKeyMatrix = convertSM.adjugate()
+        adjMatrix = convertSM.adjugate()
         determinantKeyMatrix = convertSM.det()
 
-        keyMatrix = (determinantKeyMatrix * minorCoFactorKeyMatrix % 26)
+        keyMatrix = (determinantKeyMatrix * adjMatrix % 26)
         keyMatrix = keyMatrix.tolist()
 
     def decryptData(self, cipherMatrix):
-        self.getInversKey()
+        self.getModInversKey()
         for i in range(3):
             for j in range(1):
                 messageMatrix[i][j] = 0
@@ -134,9 +150,8 @@ if __name__ == "__main__":
         
         print("+___________________________________________________________________________________________+")
         print("|                                                                                           |")
-        print("| \tMenu 1. Enkripsi Data                   |   Menu 2. Dekripsi Data                   |")
-        print("| \tMenu 3. History Enkripsi                |   Menu 4. History Dekripsi                |")
-        print("| \tMenu 5. Export Enkripsi to Excel        |   Menu 6. Export Dekripsi ke Excel        |")
+        print("| \tMenu 1. Enkripsi Data                        Menu 2. Dekripsi Data                  |")
+        print("| \tMenu 3. History Enkripsi                     Menu 4. History Dekripsi               |")
         print("| \t                                [0] Keluar                                          |")
         print("+___________________________________________________________________________________________+")
         print()
@@ -228,17 +243,25 @@ if __name__ == "__main__":
         ''' %  (fg(10), attr(0)))
 
 
+'''
+    +-------------------------------------------------------------------------------------------------------+
+	|                                                 FAQ                                                   |
+    +-------------------------------------------------------------------------------------------------------+
+	| What is Ord() ?                                                                                       |
+    |  >> To convert char to decimal (ASCII)                                                                |
+    | What is Chr() ?                                                                                       |
+    |  >> To convert decimal to char (ASCII)                                                                |
+    | Why Mod 65 ?                                                                                          |
+    |  >> Because if you want make A = 0 .. Z = 25, first : ASCII Char A (65) Mod 65, and you'll get A = 0  |
+    | Why Mod 26 ?                                                                                          | 
+    |  >> Because if you want numbers sequential alphabetically                                             |
+    | How get Mod Invers ?                                                                                  |
+    |  >> Step (1) Find Determinant                                                                         |
+    |  >> Step (2) Find Adj Matrix                                                                          |
+    |       >> Step (2.1) Tanspose Key Matrix                                                               |
+    |       >> Step (2.2) Find Minor                                                                        |
+    |       >> Step (2.3) Find Co-Factor                                                                    |
+    |  >> Step (3) Determinat * Adj % 26                                                                    |
+    +-------------------------------------------------------------------------------------------------------+
     
-
-
-    
-   
-
-       
-
-    
-
-    
-    
-
-
+'''
