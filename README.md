@@ -14,6 +14,8 @@ Buka CMD atau Terminal kemudian lakukan instalasi library dibawah dengan command
 
 `pip install beautifultable`
 
+`pip install colored`
+
 <br />
 
 **Fitur Aplikasi :**
