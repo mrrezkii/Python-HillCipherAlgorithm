@@ -118,7 +118,7 @@ if __name__ == "__main__":
     color = bg(40) + fg(233)
     reset = attr(0)
     print()
-    print(color + "=" * 20 + STRING_JUDUL_APPS + "=" * 20 + reset)
+    print("\t\t"+color + "=" * 20 + STRING_JUDUL_APPS + "=" * 20 + reset)
     print()
 
     try:
@@ -131,11 +131,14 @@ if __name__ == "__main__":
     except mysql.connector.Error as er:
         print("Gagal tersambung dengan database", er)
     else:
-        print("\n_____________________________________________________________________\n")
-        print("| Menu 1. Enkripsi Data                  | Menu 2. Dekripsi Data     ")
-        print("| Menu 3. History Enkripsi               | Menu 4. History Dekripsi  ")
-        print("                            [0] Keluar                               ")
-        print("_____________________________________________________________________")
+        
+        print("+___________________________________________________________________________________________+")
+        print("|                                                                                           |")
+        print("| \tMenu 1. Enkripsi Data                   |   Menu 2. Dekripsi Data                   |")
+        print("| \tMenu 3. History Enkripsi                |   Menu 4. History Dekripsi                |")
+        print("| \tMenu 5. Export Enkripsi to Excel        |   Menu 6. Export Dekripsi ke Excel        |")
+        print("| \t                                [0] Keluar                                          |")
+        print("+___________________________________________________________________________________________+")
         print()
     
         while True:
