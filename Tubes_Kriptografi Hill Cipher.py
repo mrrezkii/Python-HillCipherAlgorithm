@@ -2,6 +2,7 @@ import sympy as sm
 import mysql.connector
 import datetime
 from beautifultable import BeautifulTable
+from colored import fg, bg, attr
 
 
 '''
@@ -46,7 +47,7 @@ class HillChiper():
         for i in range(3):
             CipherText.append(chr(cipherMatrix[i][0] + 65))
         strCipherText = ''.join(CipherText)
-        print("\t>> [Output] Hasil Enkripsi dari", self.x, "adalah \t:", strCipherText)
+        print("\t>> [Output] Hasil enkripsi dari '"+ self.x +"' adalah \t:", strCipherText)
         print()
 
         dateTime = datetime.datetime.now()
@@ -94,7 +95,7 @@ class Decrypt(HillChiper):
         for i in range(3):
             MessageText.append(chr(messageMatrix[i][0] + 65))
         strMessageText = ''.join(MessageText)
-        print("\t>> [Output] Hasil Dekripsi dari", self.x, "adalah \t:", strMessageText)
+        print("\t>> [Output] Hasil dekripsi dari '"+ self.x +"' adalah \t:", strMessageText)
         print()
 
         dateTime = datetime.datetime.now()
@@ -114,8 +115,10 @@ if __name__ == "__main__":
     cipherMatrix = [[0] for i in range(3)]
 
     STRING_JUDUL_APPS = " APLIKASI ENKRIPSI HILL CIPHER "
+    color = bg(40) + fg(233)
+    reset = attr(0)
     print()
-    print("=" * 20 + STRING_JUDUL_APPS + "=" * 20)
+    print(color + "=" * 20 + STRING_JUDUL_APPS + "=" * 20 + reset)
     print()
 
     try:
@@ -140,25 +143,25 @@ if __name__ == "__main__":
                 isInputMenu = int(input(">> Masukkan menu yang ingin Anda pilih \t: "))
             except ValueError:
                 print('''
-                        Input supplied should be of type 'int'
-                ''')
+                        %sInput supplied should be of type 'int'%s
+                ''' %  (fg(1), attr(0)))
             else:
                 if isInputMenu < 0:
                     print('''
-                           Error Input User
-                            ''')
+                           %sError Input User%s
+                            ''' %  (fg(1), attr(0)))
                 elif isInputMenu == 1:
                     print("\t** SEMUA KATA YANG DI INPUTKAN AKAN DI UPPERCASE **")
                     isMessage = input("\t>> Masukkan 3 huruf yang ingin di enkripsi \t: ")
                     if any(str.isdigit(c) for c in isMessage):
                         print('''
-                            Input supplied should be of type 'str' 
-                            ''')
+                            %sInput supplied should be of type 'str'%s 
+                            ''' %  (fg(1), attr(0)))
                     else:
                         while len(isMessage) != 3:
                             print('''
-                            Error. Only 3 digit allowed
-                            ''')
+                            %sError. Only 3 digit allowed%s
+                            ''' %  (fg(1), attr(0)))
                             exit()
                         msg__ = isMessage.upper()
                         key__ = "GYBNQKURP"
@@ -170,13 +173,13 @@ if __name__ == "__main__":
                     isMessage = input(" \t>> Masukkan 3 huruf yang ingin di dekripsi \t: ")
                     if any(str.isdigit(c) for c in isMessage):
                         print('''
-                            Input supplied should be of type 'str' 
-                            ''')
+                            %sInput supplied should be of type 'str'%s 
+                            ''' %  (fg(1), attr(0)))
                     else:
                         while len(isMessage) != 3:
                             print('''
-                            Error. Only 3 digit allowed
-                            ''')
+                            %sError. Only 3 digit allowed%s
+                            ''' %  (fg(1), attr(0)))
                             exit()
                         msg__ = isMessage.upper()
                         key__ = "GYBNQKURP"
@@ -213,13 +216,13 @@ if __name__ == "__main__":
                     exit()
                 else:
                     print('''
-                           Enter the numbers according to the menu options above
-                        ''')
+                           %sEnter the numbers according to the menu options above%s
+                        ''' %  (fg(1), attr(0)))
     finally:
         print()
         print('''
-                ***** Terimakasih sudah menggunakan aplikasi ini *****
-        ''')
+                %s***** Terimakasih sudah menggunakan aplikasi ini *****%s
+        ''' %  (fg(10), attr(0)))
 
 
     
