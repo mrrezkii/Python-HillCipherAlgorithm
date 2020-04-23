@@ -92,6 +92,8 @@ if __name__ == "__main__":
     messageMatrix = [[0] for i in range(3)] 
     cipherMatrix = [[0] for i in range(3)]
 
+    print(messageMatrix)
+
     ftr = HillCipher(isMessage, isKey)
     ftr.processEncrypt()
     print()
